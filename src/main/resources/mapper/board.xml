@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.tripspring.board.mapper.BoardMapper">
+
+
+    <insert id="writeArticle">
+        insert into board(userId, subject, content, hit) values (#{userId}, #{subject}, #{content}, #{hit})
+    </insert>
+    <select id="searchListAll" resultType="Board">
+        select articleNo, userId, subject, content, hit, registerTime
+        from board
+    </select>
+    <select id="viewArticle" resultType="Board">
+        select articleNo, userId, subject, content, hit, registerTime
+        from board
+        where articleNo = #{articleNo}
+    </select>
+    <select id="searchListBySubject" resultType="Board">
+        select articleNo, userId, subject, content, hit, registerTime
+        from board
+        where subject like concat('%',#{subject},'%')
+    </select>
+
+
+</mapper>
