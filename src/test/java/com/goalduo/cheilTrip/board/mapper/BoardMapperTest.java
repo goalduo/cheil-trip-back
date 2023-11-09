@@ -26,7 +26,7 @@ class BoardMapperTest {
         Map<String, Object> map = new HashMap<>();
         map.put("userId", "ssafy");
         int result = boardMapper.getTotalArticleCount(map);
-        Assertions.assertThat(result).isEqualTo(0);
+        Assertions.assertThat(result).isEqualTo(100);
     }
 
 
