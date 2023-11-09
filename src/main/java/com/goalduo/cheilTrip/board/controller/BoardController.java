@@ -1,6 +1,7 @@
 package com.goalduo.cheilTrip.board.controller;
 
 import com.goalduo.cheilTrip.board.dto.Board;
+import com.goalduo.cheilTrip.board.dto.BoardDto;
 import com.goalduo.cheilTrip.board.service.BoardService;
 import com.goalduo.cheilTrip.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,8 +21,8 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/list")
-    public ResponseEntity<?> list() {
-        List<Board> boards = boardService.searchListAll();
+    public ResponseEntity<?> list(@RequestParam Map<String, String> map) throws Exception {
+        List<BoardDto> boards = boardService.searchArticles(map);
         return new ResponseEntity<>(boards,HttpStatus.OK);
     }
 
