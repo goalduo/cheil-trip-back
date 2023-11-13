@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.goalduo.cheilTrip.tripplan.mapper.TripplanMaper">
+    
+    <resultMap id="TripCourseResult" type="TripCourse">
+        <id column="courseId" property="courseId"/>
+        <result column="planId" property="planId"/>
+        <result column="userId" property="userId"/>
+        <result column="addressName" property="addressName"/>
+        <result column="categoryGroupName" property="categoryGroupName"/>
+        <result column="planName" property="planName"/>
+        <result column="placeUrl" property="placeUrl"/>
+        <result column="roadAddressName" property="roadAddressName"/>
+        <result column="x" property="x"/>
+        <result column="y" property="y"/>
+    </resultMap>
+    
+    <resultMap id="planId" type="Tripplan">
+        <id column="planId" property="userId"/>
+        <result column="planName" property="planName"/>
+        <result column="planCreatedAt" property="planCreatedAt"/>
+        <collection property="tripCourseList" ofType="TripCourse" resultMap="TripCourseResult"/>
+    </resultMap>
+
+
+</mapper>
