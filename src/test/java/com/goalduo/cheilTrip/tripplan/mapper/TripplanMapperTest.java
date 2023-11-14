@@ -30,7 +30,7 @@ public class TripplanMapperTest {
     @Test
     @DisplayName("회원 userId로 여행과 여행 course 같이 가져올 수 있다.")
     void getTripplansAndTripCoursesByuserId() throws SQLException {
-        List<TripplanDto> tripplanList = tripplanMaper.getTripplansAndTripCoursesByuserId("ssafy");
+        List<TripplanDto> tripplanList = tripplanMaper.getTripplansAndTripCoursesByUserId("ssafy");
         System.out.println(tripplanList);
     }
 

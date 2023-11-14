@@ -19,7 +19,7 @@ public interface BoardMapper {
 
     Board viewArticle(int no);
 
-    int getTotalArticleCount(Map<String, Object> param) throws SQLException;
+    int getTotalArticleCount(Map<String, Object> param);
 
     void modifyArticle(Board board);
 
