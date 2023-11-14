@@ -1,6 +1,7 @@
 package com.goalduo.cheilTrip.member.controller;
 
 
+import com.goalduo.cheilTrip.jwt.JwtToken;
 import com.goalduo.cheilTrip.member.dto.Member;
 import com.goalduo.cheilTrip.member.dto.MemberDto;
 import com.goalduo.cheilTrip.member.dto.MemberRequestDto;
@@ -29,9 +30,9 @@ public class MemberRestController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @PostMapping("/login")
-    public ResponseEntity<MemberDto> login(@RequestBody MemberRequestDto memberRequestDto){
-        MemberDto loginMember = memberService.login(memberRequestDto.getUserId(), memberRequestDto.getUserPass());
-        return new ResponseEntity<>(loginMember, HttpStatus.OK);
+    public ResponseEntity<JwtToken> login(@RequestBody MemberRequestDto memberRequestDto){
+        JwtToken jwtToken = memberService.login(memberRequestDto.getUserId(), memberRequestDto.getUserPass());
+        return new ResponseEntity<>(jwtToken, HttpStatus.OK);
     }
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpSession session){
@@ -66,4 +67,5 @@ public class MemberRestController {
         List<TripplanDto> result = tripplanService.getTripplansAndTripCoursesByUserId("ssafy");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
 }

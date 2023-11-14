@@ -28,21 +28,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDto login(String userId, String userPass) {
+    public JwtToken login(String userId, String userPass) {
         Member member = memberMapper.getMember(userId);
 //        if (member == null) return null;
         String encrypted = Encrypt.getEncrypt(userPass, member.getSalt());
         Member loginMember = memberMapper.loginMember(userId, encrypted);
         if (loginMember == null) throw new RuntimeException("로그인 실패, 회원 정보를 확인해주세요.");
         JwtToken jwtToken = jwtProvider.createJwtToken(loginMember);
-
-        MemberDto result = MemberDto.builder()
-                .userId(loginMember.getUserId())
-                .userName(loginMember.getUserName())
-                .userEmail(loginMember.getUserEmail())
-                .joinDate(loginMember.getJoinDate())
-                .build();
-        return result;
+        return jwtToken;
     }
 
     @Override
