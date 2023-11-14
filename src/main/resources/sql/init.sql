@@ -93,8 +93,8 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`tripcourse` (
                                                         CONSTRAINT `fk_tripcourse_tripplan1`
                                                             FOREIGN KEY (`planId`)
                                                                 REFERENCES `enjoytrip`.`tripplan` (`planId`)
-                                                                ON DELETE NO ACTION
-                                                                ON UPDATE NO ACTION)
+                                                                ON DELETE CASCADE
+                                                                ON UPDATE CASCADE )
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_as_cs;

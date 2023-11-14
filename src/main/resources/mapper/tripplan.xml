@@ -10,19 +10,50 @@
         <result column="userId" property="userId"/>
         <result column="addressName" property="addressName"/>
         <result column="categoryGroupName" property="categoryGroupName"/>
-        <result column="planName" property="planName"/>
+        <result column="placeName" property="placeName"/>
         <result column="placeUrl" property="placeUrl"/>
         <result column="roadAddressName" property="roadAddressName"/>
         <result column="x" property="x"/>
         <result column="y" property="y"/>
     </resultMap>
     
-    <resultMap id="planId" type="Tripplan">
-        <id column="planId" property="userId"/>
+    <resultMap id="TripPlanAndCourseResult" type="TripplanDto">
+        <id column="planId" property="planId"/>
         <result column="planName" property="planName"/>
         <result column="planCreatedAt" property="planCreatedAt"/>
         <collection property="tripCourseList" ofType="TripCourse" resultMap="TripCourseResult"/>
     </resultMap>
 
+    <select id="getTripplanAndTripCoursesByPlanId" resultMap="TripPlanAndCourseResult">
+        select *
+        from tripplan p
+        left join tripcourse c
+        on p.planId = c.planId
+        where p.planId = #{planId}
+    </select>
+    <select id="getTripplansAndTripCoursesByuserId" resultMap="TripPlanAndCourseResult">
+        select * from tripplan p left join tripcourse c on p.planId = c.planId where c.userId = #{userId}
+    </select>
 
+    <insert id="insertTripplan" useGeneratedKeys="true" keyProperty="planId">
+        insert into tripplan (planName) values(#{planName})
+    </insert>
+    <insert id="insertTripCourses" useGeneratedKeys="true" keyProperty="courseId">
+        insert into tripcourse (planId, userId, addressName,
+                                categoryGroupName, placeName,
+                                placeUrl, roadAddressName, x, y) values
+        <foreach collection="tripCourseList" item="item" separator=",">
+            (#{planId}, #{userId}, #{item.addressName}, #{item.categoryGroupName},
+             #{item.placeName}, #{item.placeUrl}, #{item.roadAddressName},
+             #{item.x}, #{item.y})
+        </foreach>
+    </insert>
+
+    <delete id="deleteTripplan">
+        delete from tripplan where planId = #{planId}
+    </delete>
+
+    <select id="countByPlanId" resultType="java.lang.Integer">
+        select count(*) from tripplan where planId = #{planId}
+    </select>
 </mapper>

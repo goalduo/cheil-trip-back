@@ -98,3 +98,32 @@ insert into board (articleNo, userId, subject, content, hit, registerTime) value
 insert into board (articleNo, userId, subject, content, hit, registerTime) values (98, 'ssafy', 'cubilia curae nulla dapibus dolor vel est donec odio justo sollicitudin ut suscipit', 'potenti cras in purus eu magna vulputate luctus cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus vivamus vestibulum sagittis sapien cum sociis natoque penatibus et', 2, '2023-08-18 03:39:32');
 insert into board (articleNo, userId, subject, content, hit, registerTime) values (99, 'ssafy', 'eu magna vulputate luctus cum sociis natoque penatibus et magnis dis parturient montes nascetur', 'est phasellus sit amet erat nulla tempus vivamus in felis eu sapien cursus vestibulum proin eu mi nulla ac enim', 95, '2023-05-03 07:11:08');
 insert into board (articleNo, userId, subject, content, hit, registerTime) values (100, 'ssafy', 'massa quis augue luctus tincidunt nulla mollis molestie lorem quisque ut erat curabitur gravida', 'felis sed lacus morbi sem mauris laoreet ut rhoncus aliquet pulvinar sed nisl nunc rhoncus dui vel sem sed sagittis nam congue risus semper porta volutpat quam pede lobortis ligula', 12, '2023-09-03 01:06:07');
+
+
+insert into tripplan (planId, planName) values (1, '테스트1');
+insert into tripplan (planId, planName) values (2, '테스트2');
+insert into tripplan (planId, planName) values (3, '테스트3');
+insert into tripplan (planId, planName) values (4, '테스트4');
+insert into tripplan (planId, planName) values (5, '테스트5');
+
+
+insert into tripcourse (courseId, planId, userId, addressName, categoryGroupName, placeName, placeUrl, roadAddressName, x, y)
+values (1, 1, 'ssafy', '서울 용산구 이태원동 34-149',
+        '음식점', '명동교자 이태원점','http://place.map.kakao.com/1952478679', '서울 용산구 녹사평대로 136',
+        '126.990949104616','37.5308561175718');
+insert into tripcourse (courseId, planId, userId, addressName, categoryGroupName, placeName, placeUrl, roadAddressName, x, y)
+values (2, 1, 'ssafy', '서울 용산구 이태원동 181-8',
+        '음식점', '바토스 이태원점','http://place.map.kakao.com/21535686', '서울 용산구 이태원로15길 1',
+        '126.990174761387','37.5346042203356');
+insert into tripcourse (courseId, planId, userId, addressName, categoryGroupName, placeName, placeUrl, roadAddressName, x, y)
+values (3, 1, 'ssafy', '서울 용산구 이태원동 457-1',
+        '음식점', '부다스벨리','http://place.map.kakao.com/17011339', '서울 용산구 녹사평대로40길 48',
+        '126.9883690507292','37.53438961809852');
+insert into tripcourse (courseId, planId, userId, addressName, categoryGroupName, placeName, placeUrl, roadAddressName, x, y)
+values (4, 1, 'ssafy', '서울 용산구 이태원동 127-28',
+        '음식점', '로우앤슬로우','http://place.map.kakao.com/1376253571', '서울 용산구 보광로 126',
+        '126.99421849699539','37.53401162895581');
+insert into tripcourse (courseId, planId, userId, addressName, categoryGroupName, placeName, placeUrl, roadAddressName, x, y)
+values (5, 1, 'ssafy', '서울 용산구 이태원동 172-2',
+        '음식점', '오리지널팬케이크하우스 이태원점','http://place.map.kakao.com/27462552', '서울 용산구 이태원로 153',
+        '126.99103917462925','37.53452500101547');
