@@ -1,5 +1,7 @@
 package com.goalduo.cheilTrip.member.service;
 
+import com.goalduo.cheilTrip.jwt.JwtProvider;
+import com.goalduo.cheilTrip.jwt.JwtToken;
 import com.goalduo.cheilTrip.member.dto.Member;
 import com.goalduo.cheilTrip.member.dto.MemberDto;
 import com.goalduo.cheilTrip.member.mapper.MemberMapper;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberMapper memberMapper;
+    private final JwtProvider jwtProvider;
 
     @Override
     @Transactional
@@ -27,9 +30,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDto login(String userId, String userPass) {
         Member member = memberMapper.getMember(userId);
-        if (member == null) return null;
+//        if (member == null) return null;
         String encrypted = Encrypt.getEncrypt(userPass, member.getSalt());
         Member loginMember = memberMapper.loginMember(userId, encrypted);
+        if (loginMember == null) throw new RuntimeException("로그인 실패, 회원 정보를 확인해주세요.");
+        JwtToken jwtToken = jwtProvider.createJwtToken(loginMember);
+
         MemberDto result = MemberDto.builder()
                 .userId(loginMember.getUserId())
                 .userName(loginMember.getUserName())
@@ -55,5 +61,6 @@ public class MemberServiceImpl implements MemberService {
     public int deleteMember(String userId) {
         return memberMapper.deleteMember(userId);
     }
+
 
 }

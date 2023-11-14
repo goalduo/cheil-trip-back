@@ -3,6 +3,7 @@ package com.goalduo.cheilTrip.member.controller;
 
 import com.goalduo.cheilTrip.member.dto.Member;
 import com.goalduo.cheilTrip.member.dto.MemberDto;
+import com.goalduo.cheilTrip.member.dto.MemberRequestDto;
 import com.goalduo.cheilTrip.member.service.MemberService;
 import com.goalduo.cheilTrip.tripplan.dto.TripplanDto;
 import com.goalduo.cheilTrip.tripplan.service.TripplanService;
@@ -28,13 +29,8 @@ public class MemberRestController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @PostMapping("/login")
-    public ResponseEntity<MemberDto> login(@RequestBody Member member, HttpSession session){
-        MemberDto loginMember = memberService.login(member.getUserId(), member.getUserPass());
-        if(loginMember == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        System.out.println(loginMember);
-        session.setAttribute("userinfo", loginMember);
-        Object userinfo = session.getAttribute("userinfo");
-        System.out.println(userinfo);
+    public ResponseEntity<MemberDto> login(@RequestBody MemberRequestDto memberRequestDto){
+        MemberDto loginMember = memberService.login(memberRequestDto.getUserId(), memberRequestDto.getUserPass());
         return new ResponseEntity<>(loginMember, HttpStatus.OK);
     }
     @PostMapping("/logout")
