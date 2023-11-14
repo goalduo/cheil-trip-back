@@ -4,12 +4,15 @@ package com.goalduo.cheilTrip.member.controller;
 import com.goalduo.cheilTrip.member.dto.Member;
 import com.goalduo.cheilTrip.member.dto.MemberDto;
 import com.goalduo.cheilTrip.member.service.MemberService;
+import com.goalduo.cheilTrip.tripplan.dto.TripplanDto;
+import com.goalduo.cheilTrip.tripplan.service.TripplanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpSession;
 public class MemberRestController {
 
     private final MemberService memberService;
+    private final TripplanService tripplanService;
 
     @PostMapping("/regist")
     public ResponseEntity<?> regist(@RequestBody Member member){
@@ -61,4 +65,9 @@ public class MemberRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/tripplan")
+    public ResponseEntity<?> getTripplanByuserId(){
+        List<TripplanDto> result = tripplanService.getTripplansAndTripCoursesByuserId("ssafy");
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
