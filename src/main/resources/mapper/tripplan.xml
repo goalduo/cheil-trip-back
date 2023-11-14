@@ -31,7 +31,7 @@
         on p.planId = c.planId
         where p.planId = #{planId}
     </select>
-    <select id="getTripplansAndTripCoursesByuserId" resultMap="TripPlanAndCourseResult">
+    <select id="getTripplansAndTripCoursesByUserId" resultMap="TripPlanAndCourseResult">
         select * from tripplan p left join tripcourse c on p.planId = c.planId where c.userId = #{userId}
     </select>
 

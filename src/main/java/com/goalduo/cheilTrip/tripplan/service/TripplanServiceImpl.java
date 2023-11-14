@@ -22,8 +22,8 @@ public class TripplanServiceImpl implements TripplanService{
     }
 
     @Override
-    public List<TripplanDto> getTripplansAndTripCoursesByuserId(String userId) {
-        return tripplanMaper.getTripplansAndTripCoursesByuserId(userId);
+    public List<TripplanDto> getTripplansAndTripCoursesByUserId(String userId) {
+        return tripplanMaper.getTripplansAndTripCoursesByUserId(userId);
     }
 
     @Override

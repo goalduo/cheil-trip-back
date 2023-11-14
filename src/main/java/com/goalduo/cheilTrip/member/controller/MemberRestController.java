@@ -66,8 +66,8 @@ public class MemberRestController {
     }
 
     @GetMapping("/tripplan")
-    public ResponseEntity<?> getTripplanByuserId(){
-        List<TripplanDto> result = tripplanService.getTripplansAndTripCoursesByuserId("ssafy");
+    public ResponseEntity<?> getTripplanByUserId(){
+        List<TripplanDto> result = tripplanService.getTripplansAndTripCoursesByUserId("ssafy");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

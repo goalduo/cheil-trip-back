@@ -9,7 +9,7 @@ import java.util.List;
 public interface TripplanService {
     TripplanDto getTripplanAndTripCoursesByPlanId(int planId);
 
-    List<TripplanDto> getTripplansAndTripCoursesByuserId(String userId);
+    List<TripplanDto> getTripplansAndTripCoursesByUserId(String userId);
 
     int insertTripplan(Tripplan tripplan);
 
