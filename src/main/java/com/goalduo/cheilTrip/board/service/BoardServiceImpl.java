@@ -3,8 +3,10 @@ package com.goalduo.cheilTrip.board.service;
 import com.goalduo.cheilTrip.board.dto.Board;
 import com.goalduo.cheilTrip.board.dto.BoardDto;
 import com.goalduo.cheilTrip.board.mapper.BoardMapper;
+import com.goalduo.cheilTrip.jwt.JwtProvider;
 import com.goalduo.cheilTrip.util.PageNavigation;
 import com.goalduo.cheilTrip.util.SizeConstant;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +20,14 @@ import java.util.Map;
 public class BoardServiceImpl implements BoardService{
 
     private final BoardMapper boardMapper;
+    private final JwtProvider jwtProvider;
 
     @Override
     @Transactional
-    public void writeArticle(Board board) {
+    public void writeArticle(Board board, String token) {
+        Claims claims = jwtProvider.getClaims(token);
+        String userId = String.valueOf(claims.get("userId"));
+        board.setUserId(userId);
         board.setHit(0);
         boardMapper.writeArticle(board);
     }

@@ -20,10 +20,17 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<?> list(@RequestParam Map<String, String> map) throws Exception {
         List<BoardDto> boards = boardService.searchArticles(map);
         return new ResponseEntity<>(boards,HttpStatus.OK);
+    }
+    @PostMapping
+    public ResponseEntity<?> writeArticle(@RequestBody Board board,
+                                          @RequestHeader("Authorization") String token) {
+
+        boardService.writeArticle(board,token);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{articleNo}")
@@ -32,13 +39,6 @@ public class BoardController {
         return new ResponseEntity<>(board,HttpStatus.OK);
     }
 
-    @PostMapping("/write")
-    public ResponseEntity<?> write(@RequestBody Board board, HttpSession session) {
-        MemberDto loginMember = (MemberDto) session.getAttribute("userinfo");
-        board.setUserId(loginMember.getUserId());
-        boardService.writeArticle(board);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
     @GetMapping("/search")
     public ResponseEntity<?> searchListBySubject(@RequestParam String subject){
         List<Board> boards = boardService.searchListBySubject(subject);

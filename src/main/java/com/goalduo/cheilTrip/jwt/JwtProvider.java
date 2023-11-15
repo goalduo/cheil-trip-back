@@ -80,6 +80,13 @@ public class JwtProvider {
         }
         return false;
     }
+    public Claims getClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(encodedSecretKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
 
 //    public static void main(String[] args) {
 //        JwtProvider jwtProvider = new JwtProvider();

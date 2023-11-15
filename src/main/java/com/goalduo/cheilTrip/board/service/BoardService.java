@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface BoardService {
 
-    void writeArticle(Board boardDto);
+    void writeArticle(Board boardDto, String token);
 
     List<BoardDto> searchArticles(Map<String, String> map) throws Exception;
 
