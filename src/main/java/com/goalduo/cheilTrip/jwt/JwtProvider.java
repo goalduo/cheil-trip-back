@@ -1,15 +1,17 @@
 package com.goalduo.cheilTrip.jwt;
 
 import com.goalduo.cheilTrip.member.dto.Member;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.goalduo.cheilTrip.util.ApiException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -20,11 +22,11 @@ import java.util.Map;
 
 @Slf4j
 @ConfigurationProperties("spring.jwt")
-@RequiredArgsConstructor
 @Component
 public class JwtProvider {
 
     @Getter @Setter private String secretKey;
+
     private final long accessTokenExpiration = 1000L * 60 * 60; // 1시간
     private final long millisecondsInDay = 24 * 60 * 60 * 1000;
     private final long refreshTokenExpiration = 14 * millisecondsInDay;
@@ -57,11 +59,33 @@ public class JwtProvider {
                     .compact();
     }
 
-    public static void main(String[] args) {
-        JwtProvider jwtProvider = new JwtProvider();
-        Claims claims = Jwts.claims();
-        claims.put("userId","ssafy");
-        claims.put("username","wook2");
-        System.out.println(jwtProvider.createToken(claims, 1000L * 60 * 60));
+    public boolean isValidToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts
+                    .parserBuilder()
+                    .setSigningKey(encodedSecretKey())
+                    .build()
+                    .parseClaimsJws(token);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.info("Invalid JWT Token", e);
+        } catch (ExpiredJwtException e) {
+            log.info("Expired JWT Token", e);
+        } catch (UnsupportedJwtException e) {
+            log.info("Unsupported JWT Token", e);
+        } catch (IllegalArgumentException e) {
+            log.info("JWT claims string is empty.", e);
+        } catch (Exception e){
+            log.info("JWT 파싱 에러", e);
+        }
+        return false;
     }
+
+//    public static void main(String[] args) {
+//        JwtProvider jwtProvider = new JwtProvider();
+//        Claims claims = Jwts.claims();
+//        claims.put("userId","ssafy");
+//        claims.put("username","wook2");
+//        System.out.println(jwtProvider.createToken(claims, 1000L * 60 * 60));
+//    }
 }

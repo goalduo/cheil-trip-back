@@ -9,6 +9,7 @@ import com.goalduo.cheilTrip.member.service.MemberService;
 import com.goalduo.cheilTrip.tripplan.dto.TripplanDto;
 import com.goalduo.cheilTrip.tripplan.service.TripplanService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class MemberRestController {
 
     private final MemberService memberService;
     private final TripplanService tripplanService;
+
 
     @PostMapping("/regist")
     public ResponseEntity<?> regist(@RequestBody Member member){
@@ -68,4 +70,8 @@ public class MemberRestController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<?> test(){
+        return new ResponseEntity<>(1, HttpStatus.OK);
+    }
 }
