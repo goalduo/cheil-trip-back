@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        String token = httpServletRequest.getHeader("X-AUTH-TOKEN");
+        String token = httpServletRequest.getHeader("Authorization");
         if(token == null) {
             httpServletResponse.sendError(400, "인증오류");
             return;

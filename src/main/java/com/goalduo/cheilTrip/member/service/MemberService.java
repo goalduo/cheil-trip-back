@@ -14,4 +14,5 @@ public interface MemberService {
 
     int deleteMember(String userId);
 
+    MemberDto findMemberByUserId(String userId);
 }

@@ -34,7 +34,7 @@ public class MemberRestController {
     @PostMapping("/login")
     public ResponseEntity<JwtToken> login(@RequestBody MemberRequestDto memberRequestDto){
         JwtToken jwtToken = memberService.login(memberRequestDto.getUserId(), memberRequestDto.getUserPass());
-        return new ResponseEntity<>(jwtToken, HttpStatus.OK);
+        return new ResponseEntity<>(jwtToken, HttpStatus.CREATED);
     }
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpSession session){
@@ -42,12 +42,10 @@ public class MemberRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/info")
-    public ResponseEntity<?> getInfo(HttpSession session){
-        MemberDto userinfo = (MemberDto) session.getAttribute("userinfo");
-        System.out.println(userinfo);
-        if(userinfo == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(userinfo,HttpStatus.OK);
+    @GetMapping("/info/{userId}")
+    public ResponseEntity<?> getInfo(@PathVariable String userId){
+        MemberDto memberDto = memberService.findMemberByUserId(userId);
+        return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
 
     @PostMapping("/update")

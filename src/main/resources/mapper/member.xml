@@ -36,6 +36,11 @@
         from member
         where userId = #{userId} and userPass = #{userPass}
     </select>
+    <select id="findMemberByUserId" resultType= "MemberDto">
+        select userId, userName, userEmail, joinDate
+        from member
+        where userId = #{userId}
+    </select>
 
 
 </mapper>

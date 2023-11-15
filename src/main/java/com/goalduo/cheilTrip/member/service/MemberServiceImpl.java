@@ -5,6 +5,7 @@ import com.goalduo.cheilTrip.jwt.JwtToken;
 import com.goalduo.cheilTrip.member.dto.Member;
 import com.goalduo.cheilTrip.member.dto.MemberDto;
 import com.goalduo.cheilTrip.member.mapper.MemberMapper;
+import com.goalduo.cheilTrip.util.ApiException;
 import com.goalduo.cheilTrip.util.Encrypt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -55,5 +56,10 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.deleteMember(userId);
     }
 
-
+    @Override
+    public MemberDto findMemberByUserId(String userId) {
+        MemberDto memberDto = memberMapper.findMemberByUserId(userId);
+        if (memberDto == null) throw new ApiException("해당 멤버가 존재하지 않습니다.");
+        return memberDto;
+    }
 }
