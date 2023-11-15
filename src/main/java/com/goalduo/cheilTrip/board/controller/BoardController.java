@@ -61,7 +61,7 @@ public class BoardController {
     }
 
     @PostMapping("/image-upload")
-    public ResponseEntity<?> uploadEditorImage(ServletRequest request, @RequestParam("upload") final MultipartFile image) throws IOException {
+    public ResponseEntity<?> uploadEditorImage(ServletRequest request, @RequestParam("image") final MultipartFile image) throws IOException {
         if (!image.isEmpty()) {
             String realPath = request.getServletContext().getRealPath("/upload");
             String today = new SimpleDateFormat("yyMMdd").format(new Date());
