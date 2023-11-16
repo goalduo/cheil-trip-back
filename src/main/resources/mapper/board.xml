@@ -32,7 +32,7 @@
         from board b, member m
         where b.userId = m.userId
         <include refid="search"></include>
-        order by b.articleNo asc
+        order by b.registerTime desc, b.articleNo asc
         limit #{start}, #{listsize}
     </select>
     <select id="viewArticle" resultType="Board">

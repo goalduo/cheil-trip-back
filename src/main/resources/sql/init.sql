@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`board` (
                                                    `userId` VARCHAR(16) NULL DEFAULT NULL,
                                                    `subject` VARCHAR(400) NULL DEFAULT NULL,
                                                    `content` VARCHAR(2000) NULL DEFAULT NULL,
+                                                   `category` VARCHAR(20) NULL DEFAULT '기타',
                                                    `hit` INT NULL DEFAULT '0',
                                                    `registerTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                                    PRIMARY KEY (`articleNo`),
