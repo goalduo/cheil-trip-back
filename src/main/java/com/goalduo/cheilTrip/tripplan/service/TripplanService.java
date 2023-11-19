@@ -18,4 +18,7 @@ public interface TripplanService {
     int deleteTripplan(int planId);
 
     int countByPlanId(int planId);
+
+
+    int postTripPlanandTripCourses(TripplanDto tripplanDto, String token);
 }

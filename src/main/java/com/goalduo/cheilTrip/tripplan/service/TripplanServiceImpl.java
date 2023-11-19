@@ -1,9 +1,12 @@
 package com.goalduo.cheilTrip.tripplan.service;
 
+import com.goalduo.cheilTrip.jwt.JwtProvider;
+import com.goalduo.cheilTrip.tripplan.dto.TripCourse;
 import com.goalduo.cheilTrip.tripplan.dto.Tripplan;
 import com.goalduo.cheilTrip.tripplan.dto.TripplanCourseInsertDto;
 import com.goalduo.cheilTrip.tripplan.dto.TripplanDto;
 import com.goalduo.cheilTrip.tripplan.mapper.TripplanMaper;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,7 @@ import java.util.List;
 public class TripplanServiceImpl implements TripplanService{
 
     private final TripplanMaper tripplanMaper;
+    private final JwtProvider jwtProvider;
 
     @Override
     public TripplanDto getTripplanAndTripCoursesByPlanId(int planId) {
@@ -48,4 +52,21 @@ public class TripplanServiceImpl implements TripplanService{
     public int countByPlanId(int planId) {
         return tripplanMaper.countByPlanId(planId);
     }
+
+
+    @Override
+    public int postTripPlanandTripCourses(TripplanDto tripplanDto, String token) {
+        Claims claims = jwtProvider.getClaims(token);
+        String userId = String.valueOf(claims.get("userId"));
+        Tripplan tripplan = new Tripplan();
+        tripplan.setPlanName(tripplanDto.getPlanName());
+        int tripId = tripplanMaper.insertTripplan(tripplan);
+        TripplanCourseInsertDto tripplanCourseInsertDto = new TripplanCourseInsertDto();
+        tripplanCourseInsertDto.setPlanId(tripId);
+        tripplanCourseInsertDto.setUserId(userId);
+        List<TripCourse> tripCourseList = tripplanDto.getTripCourseList();
+        return 1;
+    }
+
+
 }

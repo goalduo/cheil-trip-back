@@ -20,4 +20,5 @@ public interface TripplanMaper {
     int deleteTripplan(int planId);
 
     int countByPlanId(int planId);
+
 }
