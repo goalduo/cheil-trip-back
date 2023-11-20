@@ -60,12 +60,14 @@ public class TripplanServiceImpl implements TripplanService{
         String userId = String.valueOf(claims.get("userId"));
         Tripplan tripplan = new Tripplan();
         tripplan.setPlanName(tripplanDto.getPlanName());
-        int tripId = tripplanMaper.insertTripplan(tripplan);
+        int insertId = tripplanMaper.insertTripplan(tripplan);
+        System.out.println(tripplan);
         TripplanCourseInsertDto tripplanCourseInsertDto = new TripplanCourseInsertDto();
-        tripplanCourseInsertDto.setPlanId(tripId);
+        tripplanCourseInsertDto.setPlanId(tripplan.getPlanId());
         tripplanCourseInsertDto.setUserId(userId);
-        List<TripCourse> tripCourseList = tripplanDto.getTripCourseList();
-        return 1;
+        tripplanCourseInsertDto.setTripCourseList(tripplanDto.getTripCourseList());
+        int result = tripplanMaper.insertTripCourses(tripplanCourseInsertDto);
+        return result;
     }
 
 

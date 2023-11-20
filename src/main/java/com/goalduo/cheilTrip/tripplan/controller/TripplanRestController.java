@@ -20,10 +20,11 @@ public class TripplanRestController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> postTripPlanandTripCourses(@RequestBody TripplanDto tripplanDto,
                                                         @RequestHeader("Authorization") String token){
-        tripplanService.postTripPlanandTripCourses(tripplanDto, token)
+        int i = tripplanService.postTripPlanandTripCourses(tripplanDto, token);
+        return new ResponseEntity<>(i,HttpStatus.OK);
     }
 
 //    @GetMapping("/")

@@ -35,10 +35,10 @@
         select * from tripplan p left join tripcourse c on p.planId = c.planId where c.userId = #{userId}
     </select>
 
-    <insert id="insertTripplan" useGeneratedKeys="true" keyProperty="planId">
+    <insert id="insertTripplan" parameterType="Tripplan" useGeneratedKeys="true" keyProperty="planId">
         insert into tripplan (planName) values(#{planName})
     </insert>
-    <insert id="insertTripCourses" useGeneratedKeys="true" keyProperty="courseId">
+    <insert id="insertTripCourses">
         insert into tripcourse (planId, userId, addressName,
                                 categoryGroupName, placeName,
                                 placeUrl, roadAddressName, x, y) values

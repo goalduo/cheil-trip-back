@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class Tripplan {
-    private String planId;
+    private int planId;
     private String planName;
     private String planCreatedAt;
 }

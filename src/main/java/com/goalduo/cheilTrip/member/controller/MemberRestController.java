@@ -4,6 +4,7 @@ package com.goalduo.cheilTrip.member.controller;
 import com.goalduo.cheilTrip.jwt.JwtToken;
 import com.goalduo.cheilTrip.member.dto.Member;
 import com.goalduo.cheilTrip.member.dto.MemberDto;
+import com.goalduo.cheilTrip.member.dto.MemberMappingDto;
 import com.goalduo.cheilTrip.member.dto.MemberRequestDto;
 import com.goalduo.cheilTrip.member.service.MemberService;
 import com.goalduo.cheilTrip.tripplan.dto.TripplanDto;
@@ -66,6 +67,17 @@ public class MemberRestController {
     public ResponseEntity<?> getTripplanByUserId(){
         List<TripplanDto> result = tripplanService.getTripplansAndTripCoursesByUserId("ssafy");
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    @GetMapping("/attractionMapping/{userId}")
+    public ResponseEntity<?> getUserIdAttractionMapping(@PathVariable String userId){
+        System.out.println(userId);
+        String mappedId = memberService.getUserIdAttractionMapping(userId);
+        return new ResponseEntity<>(mappedId, HttpStatus.OK);
+    }
+    @PostMapping("/attractionMapping")
+    public ResponseEntity<?> setUserAttractionMapping(@RequestBody MemberMappingDto dto){
+        String mappedId = memberService.setUserAttractionMapping(dto.getFrom(), dto.getTo());
+        return new ResponseEntity<>(mappedId, HttpStatus.OK);
     }
 
     @GetMapping("/test")

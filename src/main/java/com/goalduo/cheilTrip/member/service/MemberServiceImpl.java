@@ -7,6 +7,7 @@ import com.goalduo.cheilTrip.member.dto.MemberDto;
 import com.goalduo.cheilTrip.member.mapper.MemberMapper;
 import com.goalduo.cheilTrip.util.ApiException;
 import com.goalduo.cheilTrip.util.Encrypt;
+import com.goalduo.cheilTrip.util.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberMapper memberMapper;
     private final JwtProvider jwtProvider;
+    private final RedisService redisService;
 
     @Override
     @Transactional
@@ -61,5 +63,19 @@ public class MemberServiceImpl implements MemberService {
         MemberDto memberDto = memberMapper.findMemberByUserId(userId);
         if (memberDto == null) throw new ApiException("해당 멤버가 존재하지 않습니다.");
         return memberDto;
+    }
+
+    @Override
+    public String getUserIdAttractionMapping(String userId) {
+        String values = redisService.getValues(userId);
+        if (values.equals("false")){
+            redisService.setValues(userId, userId);
+        }
+        return redisService.getValues(userId);
+    }
+    @Override
+    public String setUserAttractionMapping(String from, String to) {
+        redisService.setValues(from, to);
+        return redisService.getValues(from);
     }
 }
