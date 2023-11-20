@@ -10,5 +10,6 @@ import lombok.*;
 public class Tripplan {
     private int planId;
     private String planName;
+    private String hashtags;
     private String planCreatedAt;
 }

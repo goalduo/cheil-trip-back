@@ -60,6 +60,7 @@ public class TripplanServiceImpl implements TripplanService{
         String userId = String.valueOf(claims.get("userId"));
         Tripplan tripplan = new Tripplan();
         tripplan.setPlanName(tripplanDto.getPlanName());
+        tripplan.setHashtags(tripplanDto.getHashtags());
         System.out.println(tripplan);
         int insertId = tripplanMaper.insertTripplan(tripplan);
         System.out.println(tripplan);

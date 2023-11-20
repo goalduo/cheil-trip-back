@@ -102,4 +102,10 @@ public class BoardController {
         int count = boardService.getArticleCountByUserId(userId);
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{articleNo}")
+    public ResponseEntity<?> deleteArticleByArticleId(@PathVariable int articleNo){
+        boardService.deleteArticle(articleNo);
+        return new ResponseEntity<>("삭제완료", HttpStatus.OK);
+    }
 }

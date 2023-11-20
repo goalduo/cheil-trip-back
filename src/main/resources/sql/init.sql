@@ -64,6 +64,7 @@ CREATE INDEX `board_to_members_user_id_fk` ON `enjoytrip`.`board` (`userId` ASC)
 CREATE TABLE IF NOT EXISTS `enjoytrip`.`tripplan` (
                                                       `planId` INT NOT NULL AUTO_INCREMENT,
                                                       `planName` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_as_cs' NOT NULL,
+                                                      `hashtags` varchar(100) COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
                                                       `planCreatedAt` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
                                                       PRIMARY KEY (`planId`))
     ENGINE = InnoDB

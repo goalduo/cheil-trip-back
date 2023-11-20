@@ -14,6 +14,7 @@ import java.util.List;
 public class TripplanDto {
     private String planId;
     private String planName;
+    private String hashtags;
     private String planCreatedAt;
     private List<TripCourse> tripCourseList;
 }

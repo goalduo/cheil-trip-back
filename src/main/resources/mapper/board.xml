@@ -29,6 +29,9 @@
     <insert id="writeArticle">
         insert into board(userId, subject, content, category, hashtags, hit) values (#{userId}, #{subject}, #{content},#{category}, #{hashtags}, #{hit})
     </insert>
+    <delete id="deleteArticle">
+        delete from board where articleNo = #{no}
+    </delete>
     <select id="searchArticles" parameterType="map" resultMap="article">
         select b.articleNo, b.userId, b.subject, b.content, b.category, b.hashtags, b.hit, b.registerTime
         from board b, member m

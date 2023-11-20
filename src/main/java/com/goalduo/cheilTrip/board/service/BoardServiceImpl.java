@@ -91,7 +91,7 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public void deleteArticle(int no) {
-
+        boardMapper.deleteArticle(no);
     }
 
     @Override

@@ -20,6 +20,7 @@
     <resultMap id="TripPlanAndCourseResult" type="TripplanDto">
         <id column="planId" property="planId"/>
         <result column="planName" property="planName"/>
+        <result column="hashtags" property="hashtags"/>
         <result column="planCreatedAt" property="planCreatedAt"/>
         <collection property="tripCourseList" ofType="TripCourse" resultMap="TripCourseResult"/>
     </resultMap>
@@ -36,7 +37,7 @@
     </select>
 
     <insert id="insertTripplan" parameterType="Tripplan" useGeneratedKeys="true" keyProperty="planId">
-        insert into tripplan (planName) values(#{planName})
+        insert into tripplan (planName, hashtags) values(#{planName}, #{hashtags})
     </insert>
     <insert id="insertTripCourses">
         insert into tripcourse (planId, userId, addressName,
