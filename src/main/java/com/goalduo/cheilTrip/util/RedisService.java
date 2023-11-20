@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -59,6 +61,21 @@ public class RedisService {
     public void deleteHashOps(String key, String hashKey) {
         HashOperations<String, Object, Object> values = redisTemplate.opsForHash();
         values.delete(key, hashKey);
+    }
+
+    public void addToSet(String key, String value) {
+        SetOperations<String, Object> setOperations = redisTemplate.opsForSet();
+        setOperations.add(key, value);
+    }
+
+    public Set<Object> getSetMembers(String key) {
+        SetOperations<String, Object> setOperations = redisTemplate.opsForSet();
+        return setOperations.members(key);
+    }
+
+    public boolean isValueInSet(String key, String value) {
+        SetOperations<String, Object> setOperations = redisTemplate.opsForSet();
+        return setOperations.isMember(key, value);
     }
 
     public boolean checkExistsValue(String value) {

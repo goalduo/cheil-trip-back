@@ -26,4 +26,8 @@ public interface BoardService {
     List<Board> searchListByMostRecentN(int count);
 
     List<Board> searchListByTopN(int count);
+
+    List<Board> findArticlesByUserId(Map<String, String> map, String userId);
+
+    int getArticleCountByUserId(String userId);
 }

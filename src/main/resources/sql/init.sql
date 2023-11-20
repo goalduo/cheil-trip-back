@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`board` (
                                                    `subject` VARCHAR(400) NULL DEFAULT NULL,
                                                    `content` VARCHAR(2000) NULL DEFAULT NULL,
                                                    `category` VARCHAR(20) NULL DEFAULT '기타',
+                                                   `hashtags` varchar(100) COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
                                                    `hit` INT NULL DEFAULT '0',
                                                    `registerTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                                    PRIMARY KEY (`articleNo`),

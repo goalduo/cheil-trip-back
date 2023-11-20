@@ -11,6 +11,8 @@ public class Board {
     private String userId;
     private String subject;
     private String content;
+    private String category;
+    private String hashtags;
     private int hit;
     private String registerTime;
 }

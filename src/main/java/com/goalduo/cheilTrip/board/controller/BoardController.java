@@ -44,9 +44,9 @@ public class BoardController {
     @PostMapping
     public ResponseEntity<?> writeArticle(@RequestBody Board board,
                                           @RequestHeader("Authorization") String token) {
-
+        System.out.println(board);
         boardService.writeArticle(board,token);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
     @GetMapping("/{articleNo}")
@@ -87,5 +87,19 @@ public class BoardController {
             // 예외 처리는 따로 해주는 게 좋습니다.
             throw new RuntimeException(e);
         }
+    }
+
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> findArticlesByUserId(@RequestParam Map<String, String> map , @PathVariable String userId){
+        map.put("userId", userId);
+        List<Board> articlesByUserId = boardService.findArticlesByUserId(map, userId);
+        return new ResponseEntity<>(articlesByUserId, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}/count")
+    public ResponseEntity<?> getArticleCountByUserId(@PathVariable String userId){
+        int count = boardService.getArticleCountByUserId(userId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 }

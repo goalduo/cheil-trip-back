@@ -103,4 +103,20 @@ public class BoardServiceImpl implements BoardService{
     public List<Board> searchListByTopN(int count) {
         return null;
     }
+
+    @Override
+    public List<Board> findArticlesByUserId(Map<String, String> map, String userId) {
+        Map<String, Object> param = new HashMap<>();
+        int pgNo = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno"));
+        int start = pgNo * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
+        param.put("start", start);
+        param.put("listsize", SizeConstant.LIST_SIZE);
+        param.put("userId",userId);
+        return boardMapper.findArticlesByUserId(param);
+    }
+
+    @Override
+    public int getArticleCountByUserId(String userId) {
+        return boardMapper.getArticleCountByUserId(userId);
+    }
 }

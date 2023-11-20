@@ -9,6 +9,8 @@
         <result column="userId" property="userId"/>
         <result column="subject" property="subject"/>
         <result column="content" property="content"/>
+        <result column="category" property="category"/>
+        <result column="hashtags" property="hashtags"/>
         <result column="hit" property="hit"/>
         <result column="registerTime" property="registerTime"/>
     </resultMap>
@@ -25,10 +27,10 @@
     </sql>
 
     <insert id="writeArticle">
-        insert into board(userId, subject, content, hit) values (#{userId}, #{subject}, #{content}, #{hit})
+        insert into board(userId, subject, content, category, hashtags, hit) values (#{userId}, #{subject}, #{content},#{category}, #{hashtags}, #{hit})
     </insert>
     <select id="searchArticles" parameterType="map" resultMap="article">
-        select b.articleNo, b.userId, b.subject, b.content, b.hit, b.registerTime
+        select b.articleNo, b.userId, b.subject, b.content, b.category, b.hashtags, b.hit, b.registerTime
         from board b, member m
         where b.userId = m.userId
         <include refid="search"></include>
@@ -36,12 +38,12 @@
         limit #{start}, #{listsize}
     </select>
     <select id="viewArticle" resultType="Board">
-        select articleNo, userId, subject, content, hit, registerTime
+        select articleNo, userId, subject, content, category, hashtags, hit, registerTime
         from board
         where articleNo = #{articleNo}
     </select>
     <select id="searchListBySubject" resultType="Board">
-        select articleNo, userId, subject, content, hit, registerTime
+        select articleNo, userId, subject, content, category, hashtags, hit, registerTime
         from board
         where subject like concat('%',#{subject},'%')
     </select>
@@ -51,6 +53,18 @@
         <where>
             <include refid="search"></include>
         </where>
+    </select>
+    <select id="findArticlesByUserId" resultMap="article" parameterType="map">
+        select b.articleNo, b.userId, b.subject, b.content,b.category, b.hashtags, b.hit, b.registerTime
+        from board b, member m
+        where b.userId = m.userId and m.userId = #{userId}
+        order by b.registerTime desc, b.articleNo asc
+        limit #{start}, #{listsize}
+    </select>
+    <select id="getArticleCountByUserId" resultType="java.lang.Integer">
+        select count(*)
+        from board
+        where userId = #{userId}
     </select>
 
 

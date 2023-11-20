@@ -56,4 +56,11 @@
     <select id="countByPlanId" resultType="java.lang.Integer">
         select count(*) from tripplan where planId = #{planId}
     </select>
+    <select id="getTripplanByUserId" resultMap="TripPlanAndCourseResult">
+        select *
+        from tripplan p
+                 left join tripcourse c
+                           on p.planId = c.planId
+        where c.userId = #{userId}
+    </select>
 </mapper>

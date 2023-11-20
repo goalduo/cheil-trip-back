@@ -28,4 +28,8 @@ public interface BoardMapper {
     List<Board> searchListByMostRecentN(int count);
 
     List<Board> searchListByTopN(int count);
+
+    List<Board> findArticlesByUserId(Map<String, Object> map);
+
+    int getArticleCountByUserId(String userId);
 }

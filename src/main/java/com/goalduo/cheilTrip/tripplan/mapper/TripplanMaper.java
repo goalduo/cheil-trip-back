@@ -21,4 +21,5 @@ public interface TripplanMaper {
 
     int countByPlanId(int planId);
 
+    List<TripplanDto> getTripplanByUserId(String userId);
 }

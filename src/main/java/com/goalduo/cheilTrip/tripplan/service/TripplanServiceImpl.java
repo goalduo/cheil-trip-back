@@ -1,11 +1,9 @@
 package com.goalduo.cheilTrip.tripplan.service;
 
 import com.goalduo.cheilTrip.jwt.JwtProvider;
-import com.goalduo.cheilTrip.tripplan.dto.TripCourse;
-import com.goalduo.cheilTrip.tripplan.dto.Tripplan;
-import com.goalduo.cheilTrip.tripplan.dto.TripplanCourseInsertDto;
-import com.goalduo.cheilTrip.tripplan.dto.TripplanDto;
+import com.goalduo.cheilTrip.tripplan.dto.*;
 import com.goalduo.cheilTrip.tripplan.mapper.TripplanMaper;
+import com.goalduo.cheilTrip.util.RedisService;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,7 @@ public class TripplanServiceImpl implements TripplanService{
 
     private final TripplanMaper tripplanMaper;
     private final JwtProvider jwtProvider;
+    private final RedisService redisService;
 
     @Override
     public TripplanDto getTripplanAndTripCoursesByPlanId(int planId) {
@@ -33,7 +32,8 @@ public class TripplanServiceImpl implements TripplanService{
     @Override
     @Transactional
     public int insertTripplan(Tripplan tripplan) {
-        return tripplanMaper.insertTripplan(tripplan);
+        int result = tripplanMaper.insertTripplan(tripplan);
+        return tripplan.getPlanId();
     }
 
     @Override
@@ -70,6 +70,25 @@ public class TripplanServiceImpl implements TripplanService{
         System.out.println(tripplanCourseInsertDto);
         int result = tripplanMaper.insertTripCourses(tripplanCourseInsertDto);
         return result;
+    }
+
+    @Override
+    public void addUserIdAtAttraction(TripplanUserDto tripplanUserDto) {
+        int planId = tripplanUserDto.getPlanId();
+        String userId = tripplanUserDto.getUserId();
+        redisService.addToSet(String.valueOf(planId), userId);
+    }
+
+    @Override
+    public int isUserInAttractionSet(int id, String userId) {
+        boolean valueInSet = redisService.isValueInSet(String.valueOf(id), userId);
+        if (valueInSet) return 1;
+        else return 0;
+    }
+
+    @Override
+    public List<TripplanDto> getTripplanByUserId(String userId) {
+        return tripplanMaper.getTripplanByUserId(userId);
     }
 
 
