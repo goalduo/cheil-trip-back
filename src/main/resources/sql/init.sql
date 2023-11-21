@@ -103,8 +103,23 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`tripcourse` (
     COLLATE = utf8mb4_0900_as_cs;
 
 CREATE INDEX `fk_tripcourse_member1_idx` ON `enjoytrip`.`tripcourse` (`userId` ASC) VISIBLE;
-
 CREATE INDEX `fk_tripcourse_tripplan1_idx` ON `enjoytrip`.`tripcourse` (`planId` ASC) VISIBLE;
+
+CREATE TABLE `notification` (
+                                `notificationId` int NOT NULL AUTO_INCREMENT,
+                                `fromId` varchar(30) COLLATE utf8mb4_0900_as_cs NOT NULL,
+                                `toId` varchar(30) COLLATE utf8mb4_0900_as_cs NOT NULL,
+                                `planId` int NOT NULL,
+                                `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                PRIMARY KEY (`notificationId`),
+                                KEY `fk_notification_member1_idx` (`fromId`),
+                                KEY `fk_notification_member2_idx` (`toId`),
+                                KEY `fk_notification_tripplan1_idx` (`planId`),
+                                CONSTRAINT `fk_notification_member1` FOREIGN KEY (`fromId`) REFERENCES `member` (`userId`),
+                                CONSTRAINT `fk_notification_member2` FOREIGN KEY (`toId`) REFERENCES `member` (`userId`),
+                                CONSTRAINT `fk_notification_tripplan1` FOREIGN KEY (`planId`) REFERENCES `tripplan` (`planId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

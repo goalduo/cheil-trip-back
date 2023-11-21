@@ -23,7 +23,7 @@ public interface TripplanService {
 
     int postTripPlanandTripCourses(TripplanDto tripplanDto, String token);
 
-    void addUserIdAtAttraction(TripplanUserDto tripplanUserDto);
+    void addUserIdAtAttraction(TripplanUserDto tripplanUserDto, String token);
 
     int isUserInAttractionSet(int id, String userId);
 

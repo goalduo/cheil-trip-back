@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.goalduo.cheilTrip.notification.mapper.NotificationMapper">
+
+    <resultMap type="notification" id="notification">
+        <result column="notificationId" property="notificationId"/>
+        <result column="fromId" property="fromId"/>
+        <result column="toId" property="toId"/>
+        <result column="planId" property="planId"/>
+        <result column="createdAt" property="createdAt"/>
+    </resultMap>
+
+    <insert id="saveNotification" parameterType="notification" useGeneratedKeys="true" keyProperty="notificationId">
+        insert into notification (fromId, toId, planId) values (#{fromId}, #{toId}, #{planId})
+    </insert>
+
+    <insert id="insertTripplan" parameterType="Tripplan" useGeneratedKeys="true" keyProperty="planId">
+        insert into tripplan (planName, hashtags) values(#{planName}, #{hashtags})
+    </insert>
+    <select id="findAllByFromId" resultMap="notification">
+        select notificationId, fromId, toId, planId, createdAt
+        from notification
+        where toId = #{toId}
+    </select>
+    <select id="findNotificationById" resultMap="notification">
+        select notificationId, fromId, toId, planId, createdAt
+        from notification
+        where notificationId = #{notificationId}
+    </select>
+</mapper>

@@ -1,6 +1,9 @@
 package com.goalduo.cheilTrip.tripplan.service;
 
 import com.goalduo.cheilTrip.jwt.JwtProvider;
+import com.goalduo.cheilTrip.notification.NotificationService;
+import com.goalduo.cheilTrip.notification.dto.Notification;
+import com.goalduo.cheilTrip.notification.mapper.NotificationMapper;
 import com.goalduo.cheilTrip.tripplan.dto.*;
 import com.goalduo.cheilTrip.tripplan.mapper.TripplanMaper;
 import com.goalduo.cheilTrip.util.RedisService;
@@ -18,6 +21,8 @@ public class TripplanServiceImpl implements TripplanService{
     private final TripplanMaper tripplanMaper;
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
+    private final NotificationMapper notificationMapper;
+    private final NotificationService notificationService;
 
     @Override
     public TripplanDto getTripplanAndTripCoursesByPlanId(int planId) {
@@ -74,10 +79,20 @@ public class TripplanServiceImpl implements TripplanService{
     }
 
     @Override
-    public void addUserIdAtAttraction(TripplanUserDto tripplanUserDto) {
+    @Transactional
+    public void addUserIdAtAttraction(TripplanUserDto tripplanUserDto, String token) {
+        Claims claims = jwtProvider.getClaims(token);
+        String fromId = String.valueOf(claims.get("userId"));
         int planId = tripplanUserDto.getPlanId();
-        String userId = tripplanUserDto.getUserId();
-        redisService.addToSet(String.valueOf(planId), userId);
+        String toId = tripplanUserDto.getUserId();
+        Notification notification = Notification.builder()
+                        .fromId(fromId)
+                        .toId(toId)
+                        .planId(planId).build();
+        int result = notificationMapper.saveNotification(notification);
+        Notification dto = notificationMapper.findNotificationById(notification.getNotificationId());
+        if(!fromId.equals(toId)) notificationService.sendNewNotification(toId, dto);
+        redisService.addToSet(String.valueOf(planId), fromId);
     }
 
     @Override

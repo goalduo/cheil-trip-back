@@ -40,8 +40,9 @@ public class TripplanRestController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<?> addUserIdAtAttraction(@RequestBody TripplanUserDto tripplanUserDto){
-        tripplanService.addUserIdAtAttraction(tripplanUserDto);
+    public ResponseEntity<?> addUserIdAtAttraction(@RequestBody TripplanUserDto tripplanUserDto,
+                                                   @RequestHeader("Authorization") String token){
+        tripplanService.addUserIdAtAttraction(tripplanUserDto, token);
         return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
