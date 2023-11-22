@@ -26,11 +26,11 @@ public class NotificationService {
 
         // SseEmitter 의 완료/시간초과/에러로 인한 전송 불가 시 sseEmitter 삭제
         emitter.onCompletion(() -> {
-            System.out.println("on Completion!");
+//            System.out.println("on Completion!");
             emitterRepository.deleteAllStartByWithId(id);
         });
         emitter.onTimeout(() -> {
-            System.out.println("on Timeout");
+//            System.out.println("on Timeout");
             emitterRepository.deleteAllStartByWithId(id);
         });
         emitter.onError((e) -> {
@@ -61,16 +61,12 @@ public class NotificationService {
     // 3
     private void sendToClient(SseEmitter emitter, String name, String id, Object data) {
         try {
-            System.out.println(name + id);
-            System.out.println(data);
             emitter.send(SseEmitter.event()
                     .id(id)
                     .name(name)
                     .data(data));
         } catch (IOException exception) {
             exception.printStackTrace();
-            System.out.println(exception.getCause());
-            System.out.println(exception.getMessage());
             emitterRepository.deleteAllStartByWithId(id);
 //            throw new RuntimeException("연결 오류!");
         }
