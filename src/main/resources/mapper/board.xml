@@ -29,6 +29,13 @@
     <insert id="writeArticle">
         insert into board(userId, subject, content, category, hashtags, hit) values (#{userId}, #{subject}, #{content},#{category}, #{hashtags}, #{hit})
     </insert>
+    <update id="updateArticleHit">
+        update board set hit = hit + 1 where articleNo = #{no}
+    </update>
+    <update id="modifyArticle">
+        update board set subject = #{subject}, content = #{content}, category = #{category}, hashtags = #{hashtags} where articleNo = #{articleNo}
+    </update>
+
     <delete id="deleteArticle">
         delete from board where articleNo = #{no}
     </delete>

@@ -54,7 +54,8 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board viewArticle(int articleNo) {
-       return boardMapper.viewArticle(articleNo);
+        boardMapper.updateArticleHit(articleNo);
+        return boardMapper.viewArticle(articleNo);
     }
 
     @Override
@@ -85,8 +86,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public void modifyArticle(Board boardDto) {
-
+    public int modifyArticle(Board board, String token) {
+        if(jwtProvider.isValidToken(token)){
+            return boardMapper.modifyArticle(board);
+        }
+        return 0;
     }
 
     @Override

@@ -21,7 +21,9 @@ public interface BoardMapper {
 
     int getTotalArticleCount(Map<String, Object> param);
 
-    void modifyArticle(Board board);
+    int updateArticleHit(int no);
+
+    int modifyArticle(Board board);
 
     void deleteArticle(int no);
 

@@ -49,6 +49,15 @@ public class BoardController {
         return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
+    @PostMapping("/modify/{articleNo}")
+    public ResponseEntity<?> modifyArticle(@PathVariable int articleNo,
+                                           @RequestBody Board board,
+                                          @RequestHeader("Authorization") String token) {
+        board.setArticleNo(articleNo);
+        int result = boardService.modifyArticle(board,token);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @GetMapping("/{articleNo}")
     public ResponseEntity<?> getArticle(@PathVariable int articleNo){
         Board board = boardService.viewArticle(articleNo);

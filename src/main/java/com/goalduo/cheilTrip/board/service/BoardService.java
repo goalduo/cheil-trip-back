@@ -19,7 +19,7 @@ public interface BoardService {
 
     PageNavigation makePageNavigation(Map<String, String> map) throws Exception;
 
-    void modifyArticle(Board boardDto);
+    int modifyArticle(Board boardDto, String token);
 
     void deleteArticle(int no);
 
