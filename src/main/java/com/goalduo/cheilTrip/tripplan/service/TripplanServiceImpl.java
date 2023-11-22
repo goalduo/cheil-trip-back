@@ -89,10 +89,12 @@ public class TripplanServiceImpl implements TripplanService{
                         .fromId(fromId)
                         .toId(toId)
                         .planId(planId).build();
-        int result = notificationMapper.saveNotification(notification);
-        Notification dto = notificationMapper.findNotificationById(notification.getNotificationId());
-        if(!fromId.equals(toId)) notificationService.sendNewNotification(toId, dto);
-        redisService.addToSet(String.valueOf(planId), fromId);
+        if(!fromId.equals(toId)) {
+            int result = notificationMapper.saveNotification(notification);
+            Notification dto = notificationMapper.findNotificationById(notification.getNotificationId());
+            notificationService.sendNewNotification(toId, dto);
+        }
+        redisService.addToSet(String.valueOf(planId), toId);
     }
 
     @Override

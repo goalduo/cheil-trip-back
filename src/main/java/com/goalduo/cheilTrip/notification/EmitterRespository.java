@@ -22,7 +22,7 @@ public class EmitterRespository {
     }
     public Map<String, SseEmitter> findAllStartById(String id) {
         return emitters.entrySet().stream()
-                .filter(entry -> entry.getKey().startsWith(id))
+                .filter(entry -> entry.getKey().equals(id))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
     public void deleteAllStartByWithId(String id) {

@@ -25,13 +25,22 @@ public class NotificationService {
         SseEmitter emitter = emitterRepository.save(id, new SseEmitter(DEFAULT_TIMEOUT));
 
         // SseEmitter 의 완료/시간초과/에러로 인한 전송 불가 시 sseEmitter 삭제
-        emitter.onCompletion(() -> emitterRepository.deleteAllStartByWithId(id));
-        emitter.onTimeout(() -> emitterRepository.deleteAllStartByWithId(id));
-        emitter.onError((e) -> emitterRepository.deleteAllStartByWithId(id));
+        emitter.onCompletion(() -> {
+            System.out.println("on Completion!");
+            emitterRepository.deleteAllStartByWithId(id);
+        });
+        emitter.onTimeout(() -> {
+            System.out.println("on Timeout");
+            emitterRepository.deleteAllStartByWithId(id);
+        });
+        emitter.onError((e) -> {
+            e.printStackTrace();
+            emitterRepository.deleteAllStartByWithId(id);
+        });
 
         // 연결 직후, 데이터 전송이 없을 시 503 에러 발생. 에러 방지 위한 더미데이터 전송
         sendToClient(emitter, "sse", id ,"연결되었습니다. " + id + "님");
-        send(id);
+//        send(id);
         return emitter;
     }
     public void send(String toId) {
@@ -52,13 +61,18 @@ public class NotificationService {
     // 3
     private void sendToClient(SseEmitter emitter, String name, String id, Object data) {
         try {
+            System.out.println(name + id);
+            System.out.println(data);
             emitter.send(SseEmitter.event()
                     .id(id)
                     .name(name)
                     .data(data));
         } catch (IOException exception) {
+            exception.printStackTrace();
+            System.out.println(exception.getCause());
+            System.out.println(exception.getMessage());
             emitterRepository.deleteAllStartByWithId(id);
-            throw new RuntimeException("연결 오류!");
+//            throw new RuntimeException("연결 오류!");
         }
     }
 
@@ -80,5 +94,9 @@ public class NotificationService {
                     sendToClient(emitter, "notification", key, notification);
                 }
         );
+    }
+
+    public List<Notification> getNotificationByUserId(String userId) {
+        return notificationMapper.findAllByFromId(userId);
     }
 }
